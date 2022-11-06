@@ -18,6 +18,7 @@ bme280 = PiicoDev_BME280()
 # sensor = PiicoDev_BME280() # initialise the sensor
 tempC, presPa, humRH = bme280.values() # read all data from the sensor
 pres_hPa = presPa / 100 # convert air pressurr Pascals -> hPa (or mbar, if you prefer)
+tempCF = round((tempC*9/5) +32, 2)
 humiRH = humRH
 
 tempC_str = "{:.1f}".format(tempC)
@@ -96,13 +97,13 @@ def main():
             # logging.info('Ambient temperature %f',BME280.ambient_temperature)
             # logging.info('Pressure %s', BME280.pressure)
             # logging.info('Humidity %s', BME280.humidity)
-            logging.info('Ambient temperature %f',tempC)
-            logging.info('Pressure %s', pres_hPa)
+            logging.info('Ambient temperature %f',tempCF)
+            logging.info('Pressure %s', presPa)
             logging.info('Humidity %s', humRH)
             ais = connect(call, passcode)
             # weather = make_aprs_wx(temperature=BME280.ambient_temperature, humidity=BME280.humidity, pressure=BME280.pressure, position=position)
             # weather = make_aprs_wx(temperature=tempC, pressure=pres_hPa, Humidity=humiRH, position=position)
-            weather = make_aprs_wx(temperature=tempC, pressure=pres_hPa, humidity=humRH, position=position)
+            weather = make_aprs_wx(temperature=tempCF, pressure=presPa, humidity=humRH, position=position)
             if position:
                 ais.sendall("{}>APRS,TCPIP*:={}/{}_{}X".format(call, latitude_to_ddm(lat), longitude_to_ddm(lon),weather))
             else:
