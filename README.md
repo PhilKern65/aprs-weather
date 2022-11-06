@@ -6,7 +6,7 @@ With a Raspberry Pi Zero connected to a PiicoDev_BME280 sensor (see my weather s
 
 Steps
 1.	pip install aprslib (install the aprs python library) onto your Raspberry Pi Zero.
-2.	pip install piicodev (install the drivers for the PiicoDev ecosystem of sensors and modules) onto your Pi Zero 
+2.	pip install piicodev (install the drivers for the PiicoDev ecosystem of sensors and modules) onto your Pi Zero. 
 3.	Find the passcode associated with your Amateur Radio callsign using the below link
           https://apps.magicbug.co.uk/passcode/index.php/passcode
 4.	Find your latitude, longitude using Google Maps. (use decimal format)
