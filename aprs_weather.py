@@ -15,18 +15,7 @@ import smbus2
 import aprslib
 from aprslib.util import latitude_to_ddm, longitude_to_ddm
 
-bme280 = PiicoDev_BME280()
-# sensor = PiicoDev_BME280() # initialise the sensor
-tempC, presPa, humRH = bme280.values() # read all data from the sensor
-pres_hPa = presPa / 10 # convert air pressure Pascals -> hPa (or mbar, if you prefer)
-tempCF = round((tempC*9/5) +32, 2)
-humiRH = humRH
-
 comment = 'VK5RKW - Sponsored by KernWi-Fi'
-
-tempC_str = "{:.1f}".format(tempC)
-presPa_str = "{:.1f}".format(presPa/100)
-humRH_str = "{:.1f}".format(humRH)
 
 class Chip:
     # function to intialize chip
@@ -97,15 +86,29 @@ def main():
     
     while True:
         try:
-        
+            bme280 = PiicoDev_BME280()
             bme280_data = PiicoDev_BME280()
+            tempC, presPa, humRH = bme280.values() # read all data from the sensor
+            pres_hPa = presPa / 100 # convert air pressurr Pascals -> hPa (or mbar, if you prefer)
+            tempCF = round((tempC*9/5) +32, 2)
+            humiRH = humRH
+            tempC_str = "{:.1f}".format(tempC)
+            presPa_str = "{:.1f}".format(presPa/100)
+            humRH_str = "{:.1f}".format(humRH)
+            print("")
+            print("PiicoDev_BME280 Sensor Readings:")
+            print(str(tempC)+" °C  " + str(pres_hPa)+" hPa  " + str(humRH)+" % RH")
+            print("")
+        
+            # bme280_data = PiicoDev_BME280()
             logging.info('After bme280 call %s', bme280_data)
             if (bme280_data) is None:
                 logging.debug("No reading from sensor")
                 break;
             
             logging.info('Ambient temperature %f',tempCF)
-            logging.info('Pressure %s', pres_hPa)
+            # logging.info('Pressure %s', pres_hPa)
+            logging.info('Pressure %s', presPa)
             logging.info('Humidity %s', humRH)
             
             ais = connect(call, passcode)
