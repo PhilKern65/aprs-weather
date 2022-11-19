@@ -90,6 +90,7 @@ def main():
             bme280_data = PiicoDev_BME280()
             tempC, presPa, humRH = bme280.values() # read all data from the sensor
             pres_hPa = presPa / 100 # convert air pressurr Pascals -> hPa (or mbar, if you prefer)
+            pres_aprs = presPa / 10 # convert air pressurr Pascals -> hPa (or mbar, if you prefer)
             tempCF = round((tempC*9/5) +32, 2)
             humiRH = humRH
             tempC_str = "{:.1f}".format(tempC)
@@ -107,8 +108,8 @@ def main():
                 break;
             
             logging.info('Ambient temperature %f',tempCF)
-            # logging.info('Pressure %s', pres_hPa)
-            logging.info('Pressure %s', presPa)
+            logging.info('Pressure %s', pres_aprs)
+            # logging.info('Pressure %s', presPa)
             logging.info('Humidity %s', humRH)
             
             ais = connect(call, passcode)
